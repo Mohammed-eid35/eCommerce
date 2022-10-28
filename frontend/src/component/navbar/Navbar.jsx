@@ -51,9 +51,9 @@ export const Navbar = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="#" className="item">
+              <NavLink to="/products" className="item">
                 Products
-              </MDBNavbarLink>
+              </NavLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
