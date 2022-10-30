@@ -1,0 +1,37 @@
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product {
+  margin: 1rem;
+}
+
+.productImg {
+  width: 100%;
+  max-width: 200px;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 1rem;
+}
+
+.product:hover {
+  transform: scale(1);
+  transition: box-shadow 0.5s, transform 0.5s;
+  box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 10px 10px 10px;
+}
+/*
+.productImg:hover .icons {
+  bottom: 0;
+} */
+/* 
+.hide {
+  position: relative;
+  overflow: hidden;
+} */
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
