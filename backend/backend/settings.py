@@ -155,13 +155,3 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-
-# Product Images Settings
-# URL -> the base URL used to serve the media files
-# ROOT ->
-# MEDIA_URL = "/productImages/"
-# MEDIA_ROOT = BASE_DIR / 'productImages'
-
-# for django version < 3.1
-# import os at the top
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
