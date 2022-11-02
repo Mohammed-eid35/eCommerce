@@ -1,19 +1,4 @@
-from tkinter import CASCADE
 from django.db import models
-# from django.contrib.auth.models import User
-
-
-class Size(models.Model):
-    size = models.CharField(max_length=50)
-
-    def __str__(self) -> str:
-        return self.size
-
-
-class Color(models.Model):
-    color = models.CharField(max_length=50)
-    def __str__(self) -> str:
-        return self.color
 
 
 # Product Table Schema
@@ -21,21 +6,42 @@ class Product(models.Model):
     title = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     quantity = models.PositiveIntegerField()
-    # # adding product image to directory productImages
-    # image = models.ImageField(blank=True, upload_to='productImages')
-    # author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255)
-    publish_data = models.DateTimeField()
-    productColor = models.ManyToManyField(Color, blank=True, related_name='colors')
-    productSize = models.ManyToManyField(
-        Size, blank=True, related_name='sizes')
+    publish_date = models.DateTimeField()
 
     def __str__(self) -> str:
         return self.title
 
-    # sale price property will be added
-    # products discounts will be added
 
-# slug
+# Images Table Schema
+class Image(models.Model):
+    ImageURL = models.URLField(max_length=255)
+    ImageDescription = models.TextField(help_text='Image Description Must Be Provided',
+                                        max_length=300)
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_images", blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.ImageDescription
+
+
+# Colors Table Schema
+class Color(models.Model):
+    name = models.CharField(max_length=255)
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_colors", blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+# Sizes Table Schema
+class Size(models.Model):
+    name = models.CharField(max_length=255)
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_sizes", blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.name
