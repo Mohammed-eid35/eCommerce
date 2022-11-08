@@ -9,7 +9,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255)
-    publish_date = models.DateTimeField()
+    # publish_date = models.DateTimeField()
 
     def __str__(self) -> str:
         return self.title
