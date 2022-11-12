@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from .models import User
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
@@ -66,20 +66,22 @@ class LoginSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'first_name', 'last_name', 'password', 'tokens']
 
+
 class RequestEmailSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=5)
     redirect_url = serializers.CharField(max_length=500, required=False)
 
     class Meta:
         fields = ['email']
-    
+
     def validate(self, attrs):
         email = attrs.get('email', '')
-        
+
         if not User.objects.filter(email=email).exists():
             raise serializers.ValidationError({'email': 'Email is not exist'})
-        
+
         return super().validate(attrs)
+
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=555)
@@ -87,3 +89,23 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['token']
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    default_error_messages = {
+        'bad_token': ('Token is expired or invalid')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+
+        try:
+            RefreshToken(self.token).blacklist()
+
+        except TokenError:
+            self.fail('bad_token')
