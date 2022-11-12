@@ -108,7 +108,7 @@ class VerifyEmailView(views.APIView):
 
 class LogoutAPIView(generics.GenericAPIView):
     serializer_class = LogoutSerializer
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsAuthenticated, ]
 
     def post(self, request: Request):
         serializer = self.serializer_class(data=request.data)
