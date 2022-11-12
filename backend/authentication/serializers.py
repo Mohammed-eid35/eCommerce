@@ -65,3 +65,25 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta():
         model = User
         fields = ['email', 'first_name', 'last_name', 'password', 'tokens']
+
+class RequestEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=5)
+    redirect_url = serializers.CharField(max_length=500, required=False)
+
+    class Meta:
+        fields = ['email']
+    
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+        
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError({'email': 'Email is not exist'})
+        
+        return super().validate(attrs)
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = User
+        fields = ['token']
