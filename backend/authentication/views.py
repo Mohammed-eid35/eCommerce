@@ -1,8 +1,9 @@
 from rest_framework import generics, status, views
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.sites.shortcuts import get_current_site
+from rest_framework.request import Request
 from django.urls import reverse
 import jwt
 from django.conf import settings
@@ -13,6 +14,7 @@ from .serializers import (
     LoginSerializer,
     RequestEmailSerializer,
     EmailVerificationSerializer,
+    LogoutSerializer
 )
 from .models import User
 from .utils import Util, CustomRedirect
@@ -38,13 +40,14 @@ class LoginAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
 class RequestEmailVerificationView(generics.GenericAPIView):
     serializer_class = RequestEmailSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         user = User.objects.get(email=serializer.data['email'])
         access_token = str(RefreshToken.for_user(user).access_token)
 
@@ -53,7 +56,7 @@ class RequestEmailVerificationView(generics.GenericAPIView):
         absurl = f'http://{current_site}{relative_link}?token={access_token}'
         redirect_url = request.data.get('redirect_url', '')
         email_body = f'Hi {user.email}. Use link below to verify your email\n{absurl}?redirect_url={redirect_url}'
-        
+
         data = {
             'email_subject': 'Verify your email',
             'email_body': email_body,
@@ -63,10 +66,11 @@ class RequestEmailVerificationView(generics.GenericAPIView):
         Util.send_email(data)
 
         return Response({
-            'success': True, 
+            'success': True,
             'message': 'We have sent you a link to verify your email',
             'email': user.email
         }, status=status.HTTP_200_OK)
+
 
 class VerifyEmailView(views.APIView):
     serializer_class = EmailVerificationSerializer
@@ -76,13 +80,14 @@ class VerifyEmailView(views.APIView):
         redirect_url = request.GET.get('redirect_url')
 
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            payload = jwt.decode(
+                token, settings.SECRET_KEY, algorithms=['HS256'])
             user = User.objects.get(id=payload['user_id'])
-            
+
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
-            
+
             if redirect_url and len(redirect_url) > 3:
                 return CustomRedirect(f'{redirect_url}?token_valid=True&message=Email verified&token={token}')
             else:
@@ -93,9 +98,20 @@ class VerifyEmailView(views.APIView):
                 return CustomRedirect(f'{redirect_url}?token_valid=False&message=token expired')
             else:
                 return CustomRedirect(f"{os.environ.get('FRONTEND_URL', '')}?token_valid=False&message=token expired")
-        
+
         except jwt.exceptions.DecodeError:
             if redirect_url and len(redirect_url) > 3:
                 return CustomRedirect(f'{redirect_url}?token_valid=False&message=token expired')
             else:
                 return CustomRedirect(f"{os.environ.get('FRONTEND_URL', '')}?token_valid=False&message=invalid token")
+
+
+class LogoutAPIView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request: Request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
