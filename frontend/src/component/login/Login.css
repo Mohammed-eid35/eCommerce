@@ -7,11 +7,16 @@ img{
 }
 
 .login {
-   
+
     height: 100vh;
     width: 100%;
     background: #f2eee3;
     position: relative;
+}
+#backLogin{
+  background-image: url(../forgetPass/img/forgetback.jpg);
+  background-size: cover;
+  background-position: center top;
 }
 .login_box {
     display: flex;
