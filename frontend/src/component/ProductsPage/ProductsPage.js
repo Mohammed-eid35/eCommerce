@@ -49,6 +49,50 @@ const products = [
     rating: 4.5,
     numReviews: 8,
   },
+  {
+    _id: "1",
+    name: "Shirt",
+    category: "Shirts",
+    image:
+      "https://themes.templatescoder.com/xpoge/html/demo/1-0/01_FASHION/images/5.jpg",
+    price: 60,
+    brand: " Nike",
+    rating: 4.5,
+    numReviews: 10,
+  },
+  {
+    _id: "2",
+    name: "Shirt",
+    category: "Shirts",
+    image:
+      "https://themes.templatescoder.com/xpoge/html/demo/1-0/01_FASHION/images/5.jpg",
+    price: 50,
+    brand: " Nike",
+    rating: 4.2,
+    numReviews: 5,
+  },
+  {
+    _id: "3",
+    name: "Best Pants",
+    category: "Pants",
+    image:
+      "https://themes.templatescoder.com/xpoge/html/demo/1-0/01_FASHION/images/5.jpg",
+    price: 70,
+    brand: " Nike",
+    rating: 4.5,
+    numReviews: 8,
+  },
+  {
+    _id: "4",
+    name: "Shirts",
+    category: "Shirts",
+    image:
+      "https://themes.templatescoder.com/xpoge/html/demo/1-0/01_FASHION/images/5.jpg",
+    price: 70,
+    brand: " Nike",
+    rating: 4.5,
+    numReviews: 8,
+  },
 ];
 
 const ProductsPage = () => {
@@ -65,10 +109,10 @@ const ProductsPage = () => {
             <div className={classes.productInfo}>
               <div>{product.name}</div>
               <div>${`${product.price}`}</div>
-              <div className={classes.icons}>
-                <FaHeart />
-                <FaCartPlus />
-              </div>
+            </div>
+            <div className={classes.icons}>
+              <FaHeart />
+              <FaCartPlus />
             </div>
           </div>
         </div>
