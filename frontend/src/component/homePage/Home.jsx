@@ -11,6 +11,11 @@ import Shopping_Concepts_60 from "../login/img/Shopping_Concepts_60.jpg";
 import { Slide } from "react-reveal";
 import { Gallery } from "./gallary";
 import { Testimoniols } from "./testimoniols";
+import { LogoSwiper } from "./logSlider";
+import { Blog } from "./blog";
+import ProductsPage from '../ProductsPage/ProductsPage'
+import { FetchingData } from "./fetchingData";
+import { motion } from "framer-motion";
 export const Home = (props) => {
   const AutoplaySlider = withAutoplay(AwesomeSlider);
   const styleAnim1 = {
@@ -19,19 +24,28 @@ export const Home = (props) => {
   const styleAnim2 = {
     "--item": 2,
   };
+  function template({ rotate, x }) {
+    return `rotate(${rotate}) translatey(${x})`;
+  }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, x: 1000 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -1000 }}
+      transition={{ duration: 2.5 }}
+    >
       <AutoplaySlider
         cssModule={AwesomeSliderStyles}
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
         interval={6000}
         className="sliderHome"
+        
       >
-        <div data-src={back3}>
+        <div data-src={back3} id="slider1_content" >
           <div className="back1Content">
-            <p className="backPara1 wave">
+            <p className="backPara1 wave" >
               {" "}
               <span style={styleAnim1}>summer</span>{" "}
               <span style={styleAnim2}>collections</span>{" "}
@@ -53,7 +67,7 @@ export const Home = (props) => {
                 <p className="backpara2">
                   with an unwavering commitment to exceptional quality
                 </p>
-                <button className="hvr-sweep-to-left "> shop Now</button>
+                <button className="hvr-sweep-to-left " > shop Now</button>
               </div>
             </Slide>
           </div>
@@ -119,6 +133,10 @@ export const Home = (props) => {
         </div>
       </AutoplaySlider>
       <Gallery />
-    </>
+      <ProductsPage/>
+      <Testimoniols />
+      <LogoSwiper />
+      <Blog />
+    </motion.div>
   );
 };

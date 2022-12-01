@@ -1,8 +1,9 @@
 import React from "react";
+import './ProductsPage.css'
 import { FaHeart } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
 
-import classes from "./ProductsPage.module.css";
+import {  useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -96,21 +97,27 @@ const products = [
 ];
 
 const ProductsPage = () => {
+  const navigate = useNavigate();
+
+  const productDetailsFun = () => {
+    // 👇️ navigate to /contacts
+    navigate("/products/:productID");
+  };
   return (
-    <div className={classes.products}>
+    <div className="products">
       {products.map((product) => (
-        <div key={product._id} className={classes.product}>
-          <div className={classes.productImg}>
-            <a href="#">
+        <div key={product._id} className="product">
+          <div className="productImg">
+            <a href="" onClick={productDetailsFun}>
               <img src={product.image} alt={product.name} />
             </a>
           </div>
-          <div className={classes.hide}>
-            <div className={classes.productInfo}>
+          <div className="hide">
+            <div className="productInfo">
               <div>{product.name}</div>
               <div>${`${product.price}`}</div>
             </div>
-            <div className={classes.icons}>
+            <div className="icons">
               <FaHeart />
               <FaCartPlus />
             </div>
