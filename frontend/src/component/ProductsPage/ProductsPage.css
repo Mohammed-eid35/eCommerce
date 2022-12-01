@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   margin: 50px 0;
+
 }
 
 .product {
@@ -19,11 +20,10 @@
 }
 
 .productImg {
-  width: 100%;
-  /* max-width: 200px; */
+  width:100%;
   margin-bottom: 1rem;
   border-radius: 30px;
-  align-items: center;
+  align-items: center;  
   justify-content: center;
 }
 
@@ -52,7 +52,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1400px) {
   .product {
     width: 20%;
   }
@@ -62,6 +62,7 @@
   .product {
     width: 40%;
   }
+
 }
 
 @media (max-width: 370px) {

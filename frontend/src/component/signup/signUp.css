@@ -152,6 +152,11 @@ img{
        margin-top: 10px;
      
    }
+   #signupBack{
+      background-image: url(../forgetPass/img/forgetback.jpg);
+      background-position: center top;
+      background-size: cover;
+   }
    .login_box .left{
        width: 100%;
     display: flex;

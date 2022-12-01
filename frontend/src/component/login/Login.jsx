@@ -2,15 +2,33 @@ import React, { useState } from "react";
 import { BsFacebook } from "react-icons/bs";
 import { AiFillTwitterCircle, AiFillGoogleCircle } from "react-icons/ai";
 import "./Login.css";
+
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 export const Login = () => {
+  const navigate = useNavigate();
+
+  const navigateToforgetPass = () => {
+    // 👇️ navigate to /contacts
+    navigate("/forgetpassword");
+  };
+  const navigateToSignUP = () => {
+    // 👇️ navigate to /contacts
+    navigate("/signup");
+  };
   return (
-    <>
-      <section className="login">
+    <motion.div
+      initial={{ opacity: 0, x: 1000 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -1000 }}
+      transition={{ duration: 2.5 }}
+    >
+      <section className="login " id="backLogin">
         <div className="login_box">
           <div className="left">
             <div className="top_link">
               <a
-                href="#"
+                onClick={navigateToSignUP}
                 style={{
                   fontWeight: "bold",
                   color: "black",
@@ -60,6 +78,12 @@ export const Login = () => {
                       style={{ color: "#BD2A2E", fontSize: "40px" }}
                     />
                   </span>
+                  <a
+                    onClick={navigateToforgetPass}
+                    style={{ marginTop: "10px", fontWeight: "bold" }}
+                  >
+                    ForgetPassword
+                  </a>
                 </div>
               </form>
             </div>
@@ -76,6 +100,6 @@ export const Login = () => {
           </div>
         </div>
       </section>
-    </>
+    </motion.div>
   );
 };

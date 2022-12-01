@@ -1,14 +1,27 @@
+import { motion } from "framer-motion";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 export const SignUp = () => {
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    // 👇️ navigate to /contacts
+    navigate("/login");
+  };
   return (
-    <>
-      <section className="login">
+    <motion.div
+      initial={{ opacity: 0, x: 1000 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -1000 }}
+      transition={{ duration: 2.5 }}
+    >
+      <section className="login" id="backLogin">
         <div className="login_box">
           <div className="left">
             <div className="top_link">
               <a
-                href="#"
+                onClick={navigateToLogin}
                 style={{
                   fontWeight: "bold",
                   color: "black",
@@ -35,8 +48,8 @@ export const SignUp = () => {
                 />
                 <input type="text" placeholder="PASSWORD" />
 
-                <button className="submit" style={{ marginTop: "20px" }}>
-                  CREATE ACCOUNT
+                <button className="submit">
+                  <a onClick={navigateToLogin}> CREATE ACCOUNT</a>
                 </button>
               </form>
             </div>
@@ -53,6 +66,6 @@ export const SignUp = () => {
           </div>
         </div>
       </section>
-    </>
+    </motion.div>
   );
 };

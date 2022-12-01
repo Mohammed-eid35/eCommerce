@@ -1,9 +1,9 @@
 import React from "react";
-import "./productDetails.css";
+import "./productdetails.css";
 import { FaHeart, FaStar } from "react-icons/fa";
 const ProductDetails = (props) => {
   return (
-    <div className="container">
+    <div className="ProductContainer">
       <div className="product-imgs">
         <div className="img">
           <img src="https://themes.templatescoder.com/xpoge/html/demo/1-0/01_FASHION/images/5.jpg" />
